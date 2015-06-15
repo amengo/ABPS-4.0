@@ -114,7 +114,7 @@ int ipv6_sendmsg_udp(int udp_file_descriptor, const char *buffer, int length, st
     
     result_value = sendmsg(udp_file_descriptor, &message_header, MSG_NOSIGNAL);
     if(result_value < 0)
-        printf("Error sending packt in ipv4_sendmsg_udp. \n");
+        printf("Error sending packt in ipv6_sendmsg_udp. \n");
     
     return result_value;
 }

@@ -21,9 +21,6 @@
 #define MESSAGE_LENGTH 2000
 
 
-
-
-
 int main(int argc, char ** argv)
 {
     if(argc < 4)
@@ -47,7 +44,7 @@ int main(int argc, char ** argv)
     }
     
     int index;
-	/* control size of file to iniziliaze json format. TODO: could make parsing */
+    /* control size of file to iniziliaze json format. TODO: could make parsing */
 	fseek(fp, 0, SEEK_END);
     len = (int)ftell(fp);
 	if (len==0)
@@ -56,8 +53,9 @@ int main(int argc, char ** argv)
 		fputs("{ \"pacchetti\": [ \n \n ]}", fp);
 		hopV=1;
 	}
+
     /* check for error */
-    instantiate_ipv4_shared_instance_by_address_and_port(address, port);
+    instantiate_ipv6_shared_instance_by_address_and_port(address, port);
     
     
     for(index = 0; index < 100; index++)
@@ -65,19 +63,15 @@ int main(int argc, char ** argv)
         int test_identifier = get_test_identifier();
         
         json_object *object = json_object_new_object();
-    	
+    
         json_object *test_identifier_content = json_object_new_int(test_identifier);
-        json_object *message_content = json_object_new_string("hello from client app!\n");
-
-		json_object_object_add(object,"testIdentifier", test_identifier_content);
+        json_object *message_content = json_object_new_string("hello from client app!");
+    
+        json_object_object_add(object,"testIdentifier", test_identifier_content);
         json_object_object_add(object, "messageContent", message_content);
     
-		
-
-
-    		
-        
         const char *buffer = json_object_to_json_string(object);
+    
         uint32_t identifier;
         
         send_packet_with_message(buffer, strlen(buffer), &identifier);
@@ -91,14 +85,15 @@ int main(int argc, char ** argv)
         if(receive_local_error_notify_with_error_message(error_message))
         {
             /* Application does not use local notification info. */
-            check_and_log_local_error_notify_with_test_identifier(error_message, test_identifier, type, fp, hopV);
+            check_and_log_local_error_notify_with_test_identifier(error_message, test_identifier);
         }
         
         if (hopV==1)
 		{
 			hopV=0;
 		}        
-		free(object);
+
+        free(object);
     
         free(error_message);
     }

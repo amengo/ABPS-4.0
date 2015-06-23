@@ -5,9 +5,9 @@ import json
 from pprint import pprint
 import sys
 
-maxTime=-1
+maxTime=150
 tipo=-1
-
+nMa=0
 try:
 	inputFile=sys.argv[1]
 	tipo=int(sys.argv[2])
@@ -20,10 +20,10 @@ with open(inputFile) as data_file:
 for el in data["pacchetti"]:
 	if el['type']==tipo:
 		if maxTime < el['time']:
-			maxTime= el['time']
+			nMa=nMa+1
 
 
 
-pprint(maxTime)
+pprint(nMa)
 
 
